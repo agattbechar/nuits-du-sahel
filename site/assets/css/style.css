@@ -86,6 +86,8 @@ a {
     transition: opacity 0.2s;
 }
 a:hover { opacity: 0.8; }
+a.amber { color: #D4893A; }
+a.amber:hover { opacity: 0.8; }
 
 strong { color: var(--text-bright); font-weight: 500; }
 
@@ -440,14 +442,21 @@ em, .dim { color: var(--text-dim); font-style: italic; }
 /* ── Companion Link ───────────────────────────────────────── */
 .companion {
     display: block;
-    padding: 1.5rem 1.75rem;
+    padding: 3rem 2rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 5px;
     margin: 3rem 0;
     transition: border-color 0.3s;
+    text-align: center;
 }
 .companion:hover { border-color: var(--border-light); opacity: 1; }
+
+.companion-icon {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    display: block;
+}
 
 .companion-eyebrow {
     font-family: var(--font-mono);
@@ -459,17 +468,36 @@ em, .dim { color: var(--text-dim); font-style: italic; }
 }
 .companion-title {
     font-family: var(--font-display);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--accent);
+    margin-bottom: 0.75rem;
 }
 .companion-desc {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     font-weight: 300;
     color: var(--text-dim);
     margin-top: 0.3rem;
-    line-height: 1.65;
+    line-height: 1.75;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
 }
+.companion-link {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 1.25rem;
+    color: var(--accent);
+}
+
+/* Amber variant for La Taxe Canicule */
+.companion.amber { border-color: rgba(212, 137, 58, 0.2); }
+.companion.amber:hover { border-color: rgba(212, 137, 58, 0.4); }
+.companion.amber .companion-title { color: #D4893A; }
+.companion.amber .companion-link { color: #D4893A; }
 
 /* ── Footer ───────────────────────────────────────────────── */
 .footer {
