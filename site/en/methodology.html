@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology — Sahel Nights</title>
+    <meta name="description" content="Every assumption declared. Every source cited. Every limitation named before you find it.">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">Sahel Nights</a>
+        <ul class="nav-links">
+            <li><a href="nights.html">The Nights</a></li>
+            <li><a href="blackout.html">The Blackout</a></li>
+            <li><a href="exodus.html">The Exodus</a></li>
+            <li><a href="methodology.html" class="active">Method</a></li>
+            <li><a href="data.html">Data</a></li>
+            <li><a href="../methodology.html" class="nav-lang">FR</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<main class="wrap">
+
+    <section class="hero section" style="min-height: auto; padding-top: 8rem;">
+        <p class="hero-eyebrow fade-up">Methodology</p>
+        <h1 class="fade-up d1">How we counted the nights</h1>
+        <p class="hero-sub fade-up d2">
+            Every assumption is declared. Every source is cited. Every
+            limitation is named before you find it. This analysis is
+            descriptive — we measure, we don't model.
+        </p>
+    </section>
+
+    <section class="section">
+        <h2>Core principle</h2>
+
+        <p>
+            This analysis makes no causal claims. We don't say hot nights
+            cause the exodus — we say they coincide with it and every
+            resident of Nouakchott knows the connection. We don't predict
+            the future. We don't run regressions. We count.
+        </p>
+
+        <p>
+            The approach is the same as
+            <a href="https://mauritan.site/en/methodology.html" target="_blank">La Taxe Canicule</a>:
+            take public data, apply an international standard, and report
+            what comes out. The methodology is transparent, the data is
+            accessible, and anyone can reproduce the analysis from scratch.
+        </p>
+
+        <div class="pullquote">
+            <blockquote>
+                "We didn't model anything. We counted the nights the city
+                doesn't sleep."
+            </blockquote>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>01 — Temperature data</h2>
+
+        <p>
+            Hourly air temperature at 2 meters above ground, from the
+            Open-Meteo Historical Weather API. The underlying model is ERA5,
+            the reanalysis product of the European Centre for Medium-Range
+            Weather Forecasts (ECMWF / Copernicus). It's the same model
+            used by national weather agencies worldwide.
+        </p>
+
+        <div class="formula">Coordinates: 18.0858°N, 15.9785°W (Nouakchott city center)
+Period: January 2019 – December 2025
+Resolution: hourly
+Timezone: UTC+0 (Africa/Nouakchott)
+Variable: temperature_2m (°C)</div>
+
+        <div class="assumption">
+            <p class="tag">Source</p>
+            <p>
+                Open-Meteo Historical Weather API. License CC BY 4.0.
+                ERA5 model, Copernicus / ECMWF.
+                <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank">open-meteo.com</a>
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>02 — Defining a night</h2>
+
+        <p>
+            A "night" is the period from 6:00 PM on day N to 6:00 AM on
+            day N+1. This 12-hour window covers sunset (around 7PM in
+            Nouakchott) through past sunrise (around 6:30AM, varying by
+            season).
+        </p>
+
+        <p>
+            For each night, we compute the minimum temperature over this
+            window. If that minimum stays above the threshold, the night
+            is classified as "hot." We require at least 8 valid data hours
+            for a night to count.
+        </p>
+
+        <div class="formula">night = 6:00 PM (day N) → 6:00 AM (day N+1)
+night_min = min(temperature_2m) over this window
+hot_night = 1 if night_min > threshold, 0 otherwise
+valid if ≥ 8 hours of data available</div>
+    </section>
+
+    <section class="section">
+        <h2>03 — Hot night threshold</h2>
+
+        <p>
+            The WHO and WMO define a "tropical night" as one where the
+            minimum temperature doesn't drop below 25°C. That threshold was
+            designed for temperate latitudes. It doesn't reflect
+            Nouakchott's reality, where 25°C at night feels comfortable.
+        </p>
+
+        <p>
+            We use <strong>26°C</strong>. Still conservative for a Sahelian
+            city, but it corresponds to the sleep disruption point documented
+            in tropical epidemiological literature. The data pipeline
+            initially computes at 25°C (WHO standard). The visualization
+            script recomputes everything at 26°C. Both datasets are
+            available.
+        </p>
+
+        <div class="assumption">
+            <p class="tag">Declared assumption</p>
+            <p>
+                <strong>Threshold: nighttime minimum > 26°C.</strong>
+            </p>
+            <p>
+                Reason: WHO 25°C designed for temperate latitudes. 26°C is
+                conservative for Nouakchott. Matches sleep disruption
+                thresholds in tropical literature.
+            </p>
+            <p>
+                Alternative: 25°C (WHO, would increase counts) or 28°C
+                (stricter, would reduce to ~3% of nights — doesn't reflect
+                lived experience).
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>04 — Consecutive streaks</h2>
+
+        <p>
+            Consecutive hot-night streaks are computed by walking through
+            nights chronologically. Each time the minimum temperature
+            crosses above the threshold, a streak begins. It ends when a
+            night drops below. Streaks are sorted by length, descending.
+        </p>
+
+        <p>
+            The longest recorded streak is <strong>23 consecutive
+            nights</strong>, starting September 2, 2019. For three weeks,
+            Nouakchott's nighttime temperature never dropped below 26°C.
+            Not a single night of relief.
+        </p>
+
+        <div class="formula">for each night in chronological order:
+  if night_min > 26°C:
+    continue current streak (or start a new one)
+  else:
+    end current streak, record its length
+sort streaks by length descending</div>
+    </section>
+
+    <section class="section">
+        <h2>05 — Declared context (not measured)</h2>
+
+        <p>
+            Two elements of this analysis are not measured by our data but
+            declared as context:
+        </p>
+
+        <p>
+            <strong>Power outages.</strong> We have no access to SOMELEC
+            outage data. No public data exists. We declare that outages are
+            frequent and concentrate in summer based on official
+            communiqués, press reports, and the universal lived experience
+            of Nouakchott residents.
+        </p>
+
+        <p>
+            <strong>Seasonal exodus.</strong> No seasonal mobility data
+            exists for Nouakchott. We declare that the exodus exists — to
+            villages in the interior, abroad, and to legzer on the
+            outskirts — based on local knowledge. It's a phenomenon every
+            resident of Nouakchott knows and can confirm.
+        </p>
+
+        <div class="assumption">
+            <p class="tag">Important distinction</p>
+            <p>
+                Temperature data is <strong>measured</strong> (Open-Meteo /
+                ERA5). Power outages and the seasonal exodus are
+                <strong>declared</strong> (local knowledge + press sources).
+                Both types of information are clearly distinguished
+                throughout the site.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>06 — Limitations</h2>
+
+        <p>
+            We name our limitations before you find them.
+        </p>
+
+        <p>
+            This analysis does not claim a causal link between hot nights
+            and the exodus. It does not predict future years. It covers
+            only Nouakchott — not other Mauritanian cities. Six years of
+            data (2019–2025) is not enough to establish a long-term climate
+            trend. The 26°C threshold is a declared choice, not a medical
+            absolute. ERA5 data is a reanalysis — not ground station
+            measurements. The spatial resolution covers the whole city
+            without distinguishing neighborhoods.
+        </p>
+
+        <p>
+            Power outages are not quantified. The seasonal exodus is not
+            measured. Health impacts are not assessed — we have no hospital
+            data for Nouakchott.
+        </p>
+
+        <p>
+            These limitations bound the analysis without invalidating it.
+            We count the nights. We declare the context. We show the data.
+            The rest belongs to those who live in the city.
+        </p>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="nights.html">The Nights</a>
+            <a href="blackout.html">The Blackout</a>
+            <a href="exodus.html">The Exodus</a>
+            <a href="data.html">Data</a>
+            <a href="../methodology.html">Français</a>
+        </div>
+        <p class="footer-credit">
+            <a href="https://github.com/agattbechar">Bechar Agatt</a>
+            · Nouakchott, Mauritania · 2026
+        </p>
+    </footer>
+</main>
+
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+    this.classList.toggle('active');
+    document.querySelector('.nav-links').classList.toggle('open');
+});
+</script>
+
+</body>
+</html>

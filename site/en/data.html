@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data — Sahel Nights</title>
+    <meta name="description" content="Every source used in this analysis, with access status and role.">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">Sahel Nights</a>
+        <ul class="nav-links">
+            <li><a href="nights.html">The Nights</a></li>
+            <li><a href="blackout.html">The Blackout</a></li>
+            <li><a href="exodus.html">The Exodus</a></li>
+            <li><a href="methodology.html">Method</a></li>
+            <li><a href="data.html" class="active">Data</a></li>
+            <li><a href="../data.html" class="nav-lang">FR</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<main class="wrap">
+
+    <section class="hero section" style="min-height: auto; padding-top: 8rem;">
+        <p class="hero-eyebrow fade-up">Data</p>
+        <h1 class="fade-up d1">All sources</h1>
+        <p class="hero-sub fade-up d2">
+            Every source used in this analysis is listed below with its
+            access status, role, and a direct link. Nothing is hidden.
+            Everything is reproducible.
+        </p>
+    </section>
+
+    <section class="section">
+        <h2>Data sources</h2>
+
+        <ul class="source-list">
+            <li class="source-item">
+                <span class="source-badge open">Open</span>
+                <div>
+                    <p class="source-name">Open-Meteo Historical Weather API</p>
+                    <p class="source-desc">
+                        Hourly temperature at 2m, ERA5 model (Copernicus /
+                        ECMWF). Coordinates: 18.0858°N, 15.9785°W. Period:
+                        2019–2025. License CC BY 4.0.<br>
+                        <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank">open-meteo.com</a>
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge open">Open</span>
+                <div>
+                    <p class="source-name">WHO / WMO — Tropical night definition</p>
+                    <p class="source-desc">
+                        Standard threshold: nighttime minimum > 25°C. Used as
+                        reference. Our analysis uses 26°C with declared
+                        justification.
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge official">Official</span>
+                <div>
+                    <p class="source-name">SOMELEC — Press communiqués</p>
+                    <p class="source-desc">
+                        Outage reports: March 2026 (OMVS fault during
+                        Ramadan), August 2025 (maintenance Dar Naim /
+                        Teyaret), May 2020 (OMVS frequency disruption),
+                        April 2017 (Manantali over-frequency). No
+                        quantitative public outage data available.
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge official">Official</span>
+                <div>
+                    <p class="source-name">AfDB — Desert-to-Power Roadmap Mauritania (2020)</p>
+                    <p class="source-desc">
+                        SOMELEC installed capacity (~512–530 MW), energy mix
+                        (71% thermal), demand growth (6–7% per year), OMVS
+                        interconnection structure.<br>
+                        <a href="https://www.afdb.org/sites/default/files/2024/08/23/desert-to-power_dtp_mauritania_roadmap_en_oct2020.pdf" target="_blank">afdb.org</a>
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge official">Official</span>
+                <div>
+                    <p class="source-name">Climatescope 2022 — Mauritania</p>
+                    <p class="source-desc">
+                        Peak demand (~200 MW), available capacity (~450 MW),
+                        electricity access rate (~55%), SOMELEC tariffs
+                        ($156/MWh average).<br>
+                        <a href="https://2022.global-climatescope.org/markets/mr/" target="_blank">global-climatescope.org</a>
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge declared">Declared</span>
+                <div>
+                    <p class="source-name">Local knowledge — Power outages</p>
+                    <p class="source-desc">
+                        Power outages in Nouakchott are frequent and
+                        concentrate during the hottest months. Declared as
+                        context, not a measured variable. Corroborated by
+                        SOMELEC communiqués and press coverage.
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge declared">Declared</span>
+                <div>
+                    <p class="source-name">Local knowledge — Seasonal exodus and legzer</p>
+                    <p class="source-desc">
+                        The seasonal exodus from Nouakchott — to villages in
+                        the interior, abroad, and to legzer on the outskirts
+                        — is a phenomenon known to every resident. Declared
+                        as context. No seasonal mobility data exists for
+                        Nouakchott.
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>Press coverage</h2>
+
+        <p>
+            The following articles document specific power outage incidents
+            in Nouakchott, corroborating the declared context.
+        </p>
+
+        <ul class="source-list">
+            <li class="source-item">
+                <span class="source-badge official">Press</span>
+                <div>
+                    <p class="source-name">Sahara Medias — March 2026</p>
+                    <p class="source-desc">
+                        City-wide blackout in Nouakchott and Nouadhibou,
+                        OMVS 225 kV line fault during Ramadan.
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge official">Press</span>
+                <div>
+                    <p class="source-name">Sahara Medias — August 2025</p>
+                    <p class="source-desc">
+                        Scheduled outages in Dar Naim / Teyaret for
+                        medium-voltage network maintenance.
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge official">Press</span>
+                <div>
+                    <p class="source-name">Cridem — Heat-period outages</p>
+                    <p class="source-desc">
+                        Repeated outages lasting over 48 hours in Nouakchott
+                        and interior cities during heat waves.
+                    </p>
+                </div>
+            </li>
+
+            <li class="source-item">
+                <span class="source-badge official">Press</span>
+                <div>
+                    <p class="source-name">Le Calame — May 2020</p>
+                    <p class="source-desc">
+                        OMVS network frequency disruptions causing
+                        Nouakchott outages.
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>Companion project</h2>
+
+        <a href="https://mauritan.site/en/" class="companion" target="_blank" rel="noopener">
+            <p class="companion-eyebrow">Companion analysis</p>
+            <p class="companion-title">La Taxe Canicule</p>
+            <p class="companion-desc">
+                What heat costs Nouakchott during the day — 730 hours lost
+                per worker, $73M / year. Same methodology, same temperature
+                data, same city.
+            </p>
+        </a>
+    </section>
+
+    <section class="section">
+        <h2>Reproducibility</h2>
+
+        <p>
+            All code — the data pipeline, visualization scripts, and the
+            site itself — is available on GitHub. Anyone can reproduce the
+            analysis from scratch with an internet connection and Python 3.
+        </p>
+
+        <div class="assumption">
+            <p class="tag">Repository</p>
+            <p>
+                <a href="https://github.com/agattbechar" target="_blank">github.com/agattbechar</a>
+                — data pipeline, visualizations, static site.
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="nights.html">The Nights</a>
+            <a href="blackout.html">The Blackout</a>
+            <a href="exodus.html">The Exodus</a>
+            <a href="methodology.html">Method</a>
+            <a href="../data.html">Français</a>
+        </div>
+        <p class="footer-credit">
+            <a href="https://github.com/agattbechar">Bechar Agatt</a>
+            · Nouakchott, Mauritania · 2026
+        </p>
+    </footer>
+</main>
+
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+    this.classList.toggle('active');
+    document.querySelector('.nav-links').classList.toggle('open');
+});
+</script>
+
+</body>
+</html>

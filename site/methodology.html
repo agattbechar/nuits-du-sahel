@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Méthodologie — Les Nuits du Sahel</title>
+    <meta name="description" content="Toutes les hypothèses sont déclarées. Toutes les sources sont citées. Toutes les limitations sont nommées.">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-brand">Les Nuits du Sahel</a>
+        <ul class="nav-links">
+            <li><a href="nuits.html">Les Nuits</a></li>
+            <li><a href="panne.html">La Panne</a></li>
+            <li><a href="exode.html">L'Exode</a></li>
+            <li><a href="methodology.html" class="active">Méthode</a></li>
+            <li><a href="data.html">Données</a></li>
+            <li><a href="en/methodology.html" class="nav-lang">EN</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<main class="wrap">
+
+    <section class="hero section" style="min-height: auto; padding-top: 8rem;">
+        <p class="hero-eyebrow fade-up">Méthodologie</p>
+        <h1 class="fade-up d1">Comment nous avons compté les nuits</h1>
+        <p class="hero-sub fade-up d2">
+            Toutes les hypothèses sont déclarées. Toutes les sources sont
+            citées. Toutes les limitations sont nommées avant que vous ne
+            les trouviez. Cette analyse est descriptive — nous mesurons,
+            nous ne modélisons pas.
+        </p>
+    </section>
+
+    <section class="section">
+        <h2>Principe fondamental</h2>
+
+        <p>
+            Cette analyse ne revendique aucune causalité. Nous ne disons pas
+            que les nuits chaudes causent l'exode — nous disons qu'elles
+            coïncident avec lui et que la relation est connue de chaque
+            habitant de Nouakchott. Nous ne prédisons pas l'avenir. Nous
+            ne faisons pas de régression. Nous comptons.
+        </p>
+
+        <p>
+            L'approche est la même que celle de
+            <a href="https://mauritan.site/methodology.html" target="_blank">La Taxe Canicule</a> :
+            prendre des données publiques, appliquer un standard
+            international, et rapporter ce qui en sort. La méthodologie est
+            transparente, les données sont accessibles, et n'importe qui
+            peut reproduire l'analyse de zéro.
+        </p>
+
+        <div class="pullquote">
+            <blockquote>
+                « Nous n'avons rien modélisé. Nous avons compté les nuits
+                où la ville ne dort pas. »
+            </blockquote>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>01 — Données de température</h2>
+
+        <p>
+            Données horaires de température de l'air à 2 mètres du sol,
+            issues de l'API historique Open-Meteo. Le modèle sous-jacent est
+            ERA5, la réanalyse du Centre Européen pour les Prévisions
+            Météorologiques à Moyen Terme (ECMWF / Copernicus). C'est le
+            même modèle utilisé par les agences météorologiques nationales
+            du monde entier.
+        </p>
+
+        <div class="formula">Coordonnées : 18.0858°N, 15.9785°W (centre de Nouakchott)
+Période : janvier 2019 – décembre 2025
+Résolution : horaire
+Fuseau : UTC+0 (Africa/Nouakchott)
+Variable : temperature_2m (°C)</div>
+
+        <div class="assumption">
+            <p class="tag">Source</p>
+            <p>
+                Open-Meteo Historical Weather API. Licence CC BY 4.0.
+                Modèle ERA5, Copernicus / ECMWF.
+                <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank">open-meteo.com</a>
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>02 — Définition d'une nuit</h2>
+
+        <p>
+            Une « nuit » est définie comme la période entre 18h00 le jour N
+            et 06h00 le jour N+1. Cette fenêtre de 12 heures couvre le
+            coucher du soleil (environ 19h à Nouakchott) jusqu'après le
+            lever (environ 06h30, variable selon la saison).
+        </p>
+
+        <p>
+            Pour chaque nuit, nous calculons la température minimale sur
+            cette fenêtre. Si cette température minimale reste au-dessus du
+            seuil, la nuit est classée comme « chaude ». Nous exigeons au
+            moins 8 heures de données valides pour qu'une nuit soit comptée.
+        </p>
+
+        <div class="formula">nuit = 18h00 (jour N) → 06h00 (jour N+1)
+min_nocturne = min(temperature_2m) sur cette fenêtre
+nuit_chaude = 1 si min_nocturne > seuil, 0 sinon
+nuit valide si ≥ 8 heures de données disponibles</div>
+    </section>
+
+    <section class="section">
+        <h2>03 — Seuil de nuit chaude</h2>
+
+        <p>
+            L'Organisation Mondiale de la Santé et l'Organisation
+            Météorologique Mondiale définissent une « nuit tropicale » comme
+            une nuit où la température minimale ne descend pas sous 25°C.
+            Ce seuil a été conçu pour des latitudes tempérées et ne reflète
+            pas la réalité de Nouakchott, où 25°C la nuit est considéré
+            comme agréable.
+        </p>
+
+        <p>
+            Nous utilisons un seuil de <strong>26°C</strong>. Ce seuil est
+            encore conservateur pour une ville sahélienne mais correspond
+            au point de perturbation du sommeil documenté dans la littérature
+            épidémiologique tropicale. Le pipeline de données calcule
+            initialement à 25°C (standard OMS). Le script de visualisation
+            recalcule tout à 26°C. Les deux jeux de données sont disponibles.
+        </p>
+
+        <div class="assumption">
+            <p class="tag">Hypothèse déclarée</p>
+            <p>
+                <strong>Seuil : minimum nocturne > 26°C.</strong>
+            </p>
+            <p>
+                Raison : OMS 25°C conçu pour latitudes tempérées.
+                26°C conservateur pour Nouakchott. Correspond au seuil de
+                perturbation du sommeil dans la littérature tropicale.
+            </p>
+            <p>
+                Alternative : 25°C (OMS, augmenterait le comptage) ou 28°C
+                (plus strict, réduirait à ~3% des nuits — ne reflète pas
+                la réalité vécue).
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>04 — Séries consécutives</h2>
+
+        <p>
+            Les séries consécutives de nuits chaudes sont calculées en
+            parcourant les nuits chronologiquement. Chaque fois que la
+            température minimale passe au-dessus du seuil, une série
+            commence. Elle se termine quand une nuit passe sous le seuil.
+            Les séries sont triées par longueur décroissante.
+        </p>
+
+        <p>
+            La plus longue série enregistrée est de <strong>23 nuits
+            consécutives</strong>, débutant le 2 septembre 2019. Pendant
+            trois semaines, la température nocturne à Nouakchott n'est
+            jamais descendue sous 26°C. Pas une seule nuit de répit.
+        </p>
+
+        <div class="formula">pour chaque nuit dans l'ordre chronologique :
+  si min_nocturne > 26°C :
+    continuer la série en cours (ou en commencer une nouvelle)
+  sinon :
+    terminer la série en cours, enregistrer sa longueur
+trier les séries par longueur décroissante</div>
+    </section>
+
+    <section class="section">
+        <h2>05 — Contexte déclaré (non mesuré)</h2>
+
+        <p>
+            Deux éléments de cette analyse ne sont pas mesurés par nos
+            données mais sont déclarés comme contexte :
+        </p>
+
+        <p>
+            <strong>Les coupures d'électricité.</strong> Nous n'avons pas
+            accès aux données de pannes de SOMELEC. Aucune donnée publique
+            n'existe. Nous déclarons que les coupures sont fréquentes et se
+            concentrent en été sur la base de communiqués officiels, de
+            reportages de presse et de l'expérience vécue universelle à
+            Nouakchott.
+        </p>
+
+        <p>
+            <strong>L'exode saisonnier.</strong> Il n'existe pas de données
+            de mobilité saisonnière pour Nouakchott. Nous déclarons que
+            l'exode existe — vers les villages de l'intérieur et vers les
+            legzer en périphérie — sur la base de la connaissance locale.
+            C'est un phénomène que tout habitant de Nouakchott connaît et
+            peut confirmer.
+        </p>
+
+        <div class="assumption">
+            <p class="tag">Distinction importante</p>
+            <p>
+                Les données de température sont <strong>mesurées</strong>
+                (Open-Meteo / ERA5). Les coupures d'électricité et l'exode
+                saisonnier sont <strong>déclarés</strong> (connaissance
+                locale + sources de presse). Les deux types d'information
+                sont clairement distingués sur le site.
+            </p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>06 — Limitations</h2>
+
+        <p>
+            Nous nommons nos limitations avant que vous ne les trouviez.
+        </p>
+
+        <p>
+            Cette analyse ne revendique pas de lien causal entre les nuits
+            chaudes et l'exode. Elle ne prédit pas les années futures. Elle
+            ne couvre que Nouakchott — pas les autres villes de Mauritanie.
+            Six années de données (2019–2025) ne suffisent pas pour établir
+            une tendance climatique à long terme. Le seuil de 26°C est un
+            choix déclaré, pas un absolu médical. Les données ERA5 sont une
+            réanalyse — pas des mesures de station au sol. La résolution
+            spatiale couvre l'ensemble de la ville sans distinguer les
+            quartiers.
+        </p>
+
+        <p>
+            Les coupures d'électricité ne sont pas quantifiées. L'exode
+            saisonnier n'est pas mesuré. Les impacts sur la santé ne sont
+            pas évalués — nous ne disposons pas de données hospitalières
+            de Nouakchott.
+        </p>
+
+        <p>
+            Ces limitations délimitent l'analyse sans l'invalider. Nous
+            comptons les nuits. Nous déclarons le contexte. Nous montrons
+            les données. Le reste appartient à ceux qui vivent dans la ville.
+        </p>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="index.html">Accueil</a>
+            <a href="nuits.html">Les Nuits</a>
+            <a href="panne.html">La Panne</a>
+            <a href="exode.html">L'Exode</a>
+            <a href="data.html">Données</a>
+            <a href="en/methodology.html">English</a>
+        </div>
+        <p class="footer-credit">
+            <a href="https://github.com/agattbechar">Bechar Agatt</a>
+            · Nouakchott, Mauritanie · 2026
+        </p>
+    </footer>
+</main>
+
+<script>
+document.querySelector('.nav-toggle')?.addEventListener('click', function() {
+    this.classList.toggle('active');
+    document.querySelector('.nav-links').classList.toggle('open');
+});
+</script>
+
+</body>
+</html>
